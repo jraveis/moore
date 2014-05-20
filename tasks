@@ -1,0 +1,20 @@
+Current tasks:
+
+-Comment the code.
+
+-Figure out how extreme programming works, so we can try it.
+	-Build tests into code as you write it.
+
+-Make the code more portable. Specifically, get rid of the references to specific file paths on vincent's computer.
+	-Not that hard. We need to define the place we're storing projects relative to the directory where script is stored.
+	-Alternatively, we could find out what the name of the user running the program is (by checking running permissions?) and use that to define a Projects directory, i.e. /home/username/Projects. I prefer this solution
+
+-Build the interaction tree. So build the set of commands that parse user input.
+	-Fix the disconnect between ease of use and speed of use. We want new users to understand what's happening, and experienced users to be able to use it quickly.
+	-I think if the command is called without any arguments, it should default to help mode. This is pretty common for commands, and useful, because most people try out a command for the first time without any arguments.
+	-But experienced users shouldn't have to deal with that. They should be able to enter the name of a project, and some command, and have that command executed with that project.
+
+-Implement the various project commands. New task,
+
+
+
