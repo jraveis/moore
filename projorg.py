@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import sys
 import os
-import cPickle
+import pickle
 import math
 import time
 import getpass
@@ -11,9 +11,12 @@ import getpass
 #For now, run script every time.
 #Later, modify file to include value.
 
+if exists('dictionary'):
+	projs=pickle.load(open('/home/james/Projects/Moore/dictionary','r'))
+else:
+	#create new file
+	os.touch('disctionary')
 
-projs=cPickle.load(open('/home/james/Projects/Moore/dictionary','r'))
-I_mod_it
 #How accurate the user is. Need to update to actually reflect user's accuracy.
 userMult = 1.0
 
@@ -69,7 +72,9 @@ class Project:
 	def nextTask():
 		print (tasks[1].text)
 		
-	def addTask(task):
+	def addTask():
+	##Create new task
+	##add it ot the list
 		tasks.append(task)
 		tasks.sort(key = lambda k: k[startTime])
 		
@@ -87,34 +92,111 @@ class Project:
 		if raw_input() == 'n':
 			addTask(task)
 		
-def create(name):
-	if name == "":
-		print("Name of new Project?")
-		name = raw_input()
+def createProject(name):
+	#Create new directory for the project
 	try:
 		os.mkdir('/home/james/Projects/'+name)
 		open('/home/james/Projects/'+name+'/tasks','a').close()
 	except:
-		print("Project already exists")
+		print("Project already exists")#is that the only reason it fail?
 		exit()
 	print("Does you project have a specific due date? Enter in d/m/y format. Give full month and year. If none, hit enter.")
-	due = raw_input()
+	due = getInput()
 	if due != '':
 		due = datetime.strptime(due,"%d/%B/%Y")
-		new = Project(name = name, due = due)
+		newP = Project(name = name, due = due)
 	else:
 		new = Project(name = name)
-	projs[str(len(projs))] = new
+	projs[str(len(projs))] = newP
+	
 
-def newProject():
-	print("new")
+###########################################################
+#Method to read the input and call a method on the chosen project
+#Takes the project instance as input
+#######################################################
 
-def continueProject():
-	print("continue")
+def parseMethodName(curProject):
+	if(sys.argc>1)
+		cmd2=sys.argv[2]
+	else:
+		while True:
+			print("enter method to be called")
+			cmd2=raw_input()
+			if methodTable.contains_key(cmd2)
+				curProj.methodTable[cmd2]()
+				return
+			else:
+				print("Please enter again")
+				
+		#cmd2 is a method name
+		#call this method on the current project
+	
+def parseProjectName(cmd):
+	while True:
+		if projs.contains_key(cmd):
+			curProj = projs[cmd]
+			print("project exists!")
+			parseMethodName(curProj)
+			return
+		else:
+			print("project does not exist. Should I create new? y?")
+			if (name=raw_input())=="y":
+				curProj=createProject(cmd)
+				print("Created a new project!")
+				parseMethodName(curProj)
+				return
+			else:
+				print(projs.keys())
+				print("type project name")
+				cmd=raw_input()
 
-val = sys.argv[1]
+def getInput():
+	(input=raw_input())!=""
+	return input				
+##############################################################
+#The program is called with 0 or more parameters.
+#If 0 parmeters have to prompt for imput
+#if 1 parameter then assume the name of project was input
+#If 2 parameters name of project and the method to be called on that project
+##############################################################	
+#Main()	
+cmd=""
+#Define all methods in the dictionary
+methods={
+	"_add":addTask, 
+	"_complete":completeTask,
+	"_next":nextTask
+	}
+	
 
-{"np": newProject, "cont": continueProject}[val]()
+	
+#Main logic, very simple!
+if sys.argc<1 :
+	print("enter project name")
+	name=getInput()
+else:
+	name=sys.argv[1]
+parseProjectName(name)
+		
+		
+##############################################################
+#End of main()
+###################################	##########################	
+
+
+
+# if len(sys.argv) != 1:
+	# cmd=sys.argv[1]
+	# parseInput(cmd)				
+# else:
+	# print("no arg")
+	
+# val = sys.argv[1]
+
+############################################################
+#############################################################
+
+#{"np": newProject, "cont": continueProject}[val]()
 
 
 '''
