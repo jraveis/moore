@@ -4,6 +4,12 @@ import os
 import cPickle
 import math
 import time
+import getpass
+###################
+#Use getpass to find the user, create 
+#the subfolder in their home directory.
+#For now, run script every time.
+#Later, modify file to include value.
 
 
 projs=cPickle.load(open('/home/james/Projects/Moore/dictionary','r'))
