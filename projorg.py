@@ -11,6 +11,8 @@ import getpass
 #For now, run script every time.
 #Later, modify file to include value.
 
+james
+
 if exists('dictionary'):
 	projs=pickle.load(open('/home/james/Projects/Moore/dictionary','r'))
 else:
