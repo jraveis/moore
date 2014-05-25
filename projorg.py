@@ -13,11 +13,22 @@ import getpass
 
 james
 
-if exists('dictionary'):
-	projs=pickle.load(open('/home/james/Projects/Moore/dictionary','r'))
+####################
+#Define derectory in which the projects are going to be stored
+#Need to set an enviroment variable to the destination folder
+path= os.environ.get("PROJECT_HOME","Not set")
+if path=="Not set":
+	path=os.getcwd()
+print(path)
+
+if os.path.exists('dictionary'):
+	projs=pickle.load(open( os.getcwd()+ 'dictionary','r'))
 else:
+	projs={}
+#Not needed
+#else:
 	#create new file
-	os.touch('disctionary')
+	#os.path.touch('disctionary')
 
 #How accurate the user is. Need to update to actually reflect user's accuracy.
 userMult = 1.0
@@ -77,6 +88,14 @@ class Project:
 	def addTask():
 	##Create new task
 	##add it ot the list
+		test=input("Task description: ")
+		
+		due=input("Enter due date: ")
+		
+		time=input("How long do you think it will take you finish this task?")
+		priority="1"
+		
+		task= Task(text,due,time,priority,interval,number)
 		tasks.append(task)
 		tasks.sort(key = lambda k: k[startTime])
 		
@@ -87,28 +106,26 @@ class Project:
 			for task in tasks:
 				print("Task number: " + i)
 				print("Task: " + task.text)
-			print("Enter the number of the task you finished.")
-			number = raw_input()
+			number =input("Enter the number of the task you finished.")
 		task = tasks.pop(number)
 		print("The task you completed is: " + task.text +". Confirm? y/n")
-		if raw_input() == 'n':
+		if input() == 'n':
 			addTask(task)
 		
 def createProject(name):
 	#Create new directory for the project
 	try:
-		os.mkdir('/home/james/Projects/'+name)
-		open('/home/james/Projects/'+name+'/tasks','a').close()
+		os.mkdir(path+name)
+		open(path+name+'/tasks','a').close()
 	except:
-		print("Project already exists")#is that the only reason it fail?
+		print("Could not create a directory")
 		exit()
-	print("Does you project have a specific due date? Enter in d/m/y format. Give full month and year. If none, hit enter.")
-	due = getInput()
+	due = input("Does you project have a specific due date? Enter in d/m/y format. Give full month and year. If none, hit enter.")
 	if due != '':
 		due = datetime.strptime(due,"%d/%B/%Y")
 		newP = Project(name = name, due = due)
 	else:
-		new = Project(name = name)
+		newP = Project(name = name)
 	projs[str(len(projs))] = newP
 	
 
@@ -118,13 +135,12 @@ def createProject(name):
 #######################################################
 
 def parseMethodName(curProject):
-	if(sys.argc>1)
+	if(sys.argc>1):
 		cmd2=sys.argv[2]
 	else:
 		while True:
-			print("enter method to be called")
-			cmd2=raw_input()
-			if methodTable.contains_key(cmd2)
+			cmd2=input("enter method to be called")
+			if methodTable.contains_key(cmd2):
 				curProj.methodTable[cmd2]()
 				return
 			else:
@@ -135,26 +151,27 @@ def parseMethodName(curProject):
 	
 def parseProjectName(cmd):
 	while True:
-		if projs.contains_key(cmd):
+		if cmd in projs:
 			curProj = projs[cmd]
 			print("project exists!")
 			parseMethodName(curProj)
 			return
 		else:
-			print("project does not exist. Should I create new? y?")
-			if (name=raw_input())=="y":
+			name=input("project does not exist. Should I create new? y?")
+			if name=="y":
 				curProj=createProject(cmd)
 				print("Created a new project!")
 				parseMethodName(curProj)
 				return
 			else:
 				print(projs.keys())
-				print("type project name")
-				cmd=raw_input()
+				cmd=raw_input("type project name")
 
 def getInput():
-	(input=raw_input())!=""
-	return input				
+	name=""
+	while name=="":
+		name=input("Please enter a name")
+	return name				
 ##############################################################
 #The program is called with 0 or more parameters.
 #If 0 parmeters have to prompt for imput
@@ -165,19 +182,19 @@ def getInput():
 cmd=""
 #Define all methods in the dictionary
 methods={
-	"_add":addTask, 
-	"_complete":completeTask,
-	"_next":nextTask
+	"_add":Project.addTask, 
+	"_complete":Project.completeTask,
+	"_next":Project.nextTask
 	}
 	
 
 	
 #Main logic, very simple!
-if sys.argc<1 :
-	print("enter project name")
+if len(sys.argv) <2 :
 	name=getInput()
 else:
 	name=sys.argv[1]
+	print("The 1st argument is",sys.argv[1])
 parseProjectName(name)
 		
 		
