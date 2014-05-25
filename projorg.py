@@ -5,11 +5,19 @@ import pickle
 import math
 import time
 
-if exists('dictionary'):
-	projs=pickle.load(open('/home/james/Projects/Moore/dictionary','r'))
+####################
+#Define derectory in which the projects are going to be stored
+#Need to set an enviroment variable to the destination folder
+path= os.environ.get("PROJECT_HOME","Not set")
+if path=="Not set":
+	path=os.getcwd()
+print path
+
+if exists(path +'dictionary'):
+	projs=pickle.load(open(path + 'dictionary','r'))
 else:
 	#create new file
-	os.touch('disctionary')
+	os.touch(path +'disctionary')
 
 #How accurate the user is. Need to update to actually reflect user's accuracy.
 userMult = 1.0
@@ -69,6 +77,15 @@ class Project:
 	def addTask():
 	##Create new task
 	##add it ot the list
+		print("Task description: ")
+		test=rawInput()
+		print("Enter due date: ")
+		due=rawInput()
+		print("How long do you think it will take you finish this task?")
+		time=rawInput()
+		priority="1"
+		
+		task= Task(text,due,time,priority,interval,number)
 		tasks.append(task)
 		tasks.sort(key = lambda k: k[startTime])
 		
@@ -89,8 +106,8 @@ class Project:
 def createProject(name):
 	#Create new directory for the project
 	try:
-		os.mkdir('/home/james/Projects/'+name)
-		open('/home/james/Projects/'+name+'/tasks','a').close()
+		os.mkdir(path+name)
+		open(path+name+'/tasks','a').close()
 	except:
 		print("Project already exists")#is that the only reason it fail?
 		exit()
@@ -100,7 +117,7 @@ def createProject(name):
 		due = datetime.strptime(due,"%d/%B/%Y")
 		newP = Project(name = name, due = due)
 	else:
-		new = Project(name = name)
+		newP = Project(name = name)
 	projs[str(len(projs))] = newP
 	
 
