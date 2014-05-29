@@ -4,7 +4,7 @@ import os
 import pickle
 import math
 import time
-
+#anna
 ####################
 #Define derectory in which the projects are going to be stored
 #Need to set an enviroment variable to the destination folder
@@ -66,10 +66,10 @@ class Task:
 		return ("Text: " + text +", Due Date: " + due + ", Expected Completion Time: " + time + ", Priority: " + priority + ", Time per Day: " + interval + ", Number of Intervals per Day: " + number + "." )
 
 class Project:
-	def __init__(name,task,due = ''):
+	def __init__(name,due = ''):
 		self.name = name
 		self.due = due
-		self.tasks.append(task)
+		#self.tasks.append(task)
 		
 	def __str__():
 		return ("Project name: " + name +", Project Due Date: " + due + ", Tasks: " + tasks)
@@ -107,15 +107,15 @@ class Project:
 def createProject(name):
 	#Create new directory for the project
 	try:
-		os.mkdir(path+name)
-		open(path+name+'/tasks','a').close()
+		os.makedirs(path+"/"+name)
+		#open(path+name+'/tasks','a').close()
 	except:
 		print("Could not create a directory")
 		exit()
-	due = input("Does you project have a specific due date? Enter in d/m/y format. Give full month and year. If none, hit enter.")
+	due = input("Does your project have a specific due date? Enter in d/m/y format. Give full month and year. If none, hit enter.")
 	if due != '':
-		due = datetime.strptime(due,"%d/%B/%Y")
-		newP = Project(name = name, due = due)
+		due = time.strptime(due,"%d/%m/%Y")
+		newP = Project( name, due)
 	else:
 		newP = Project(name = name)
 	projs[str(len(projs))] = newP
