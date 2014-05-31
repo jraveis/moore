@@ -4,7 +4,19 @@ import os
 import pickle
 import math
 import time
+<<<<<<< HEAD
 #anna
+=======
+import getpass
+###################
+#Use getpass to find the user, create 
+#the subfolder in their home directory.
+#For now, run script every time.
+#Later, modify file to include value.
+
+james
+
+>>>>>>> 8fc862f7dd542b4e93032bee83dddd16bafc2907
 ####################
 #Define derectory in which the projects are going to be stored
 #Need to set an enviroment variable to the destination folder
@@ -210,24 +222,3 @@ parseProjectName(name)
 #{"np": newProject, "cont": continueProject}[val]()
 
 
-'''
-projNumber = int(sys.argv[1])
-
-#Get working project based on user input.
-if projNumber in range(0,len(projs)):
-	workProj = projs[projNumber]
-else:
-	#Possibly check if input is a project name?
-	print("Not a valid project")
-	quit()
-	
-#Task to do
-if sys.argv[2] == "1" or sys.argv[2] == "nextTask":
-	workProj.nextTask()
-		
-if sys.argv[2] == "2" or sys.argv[2] == "addTask":
-	workProj.addTask()
-		
-if sys.argv[2] == "3" or sys.argv[2] == "finishTask":
-	workProj.finishTask()
-	'''
