@@ -1,5 +1,5 @@
 class Task:
-	def __init__(self,description,dueDate,hoursEstimate, hoursAtATime,numberOfTimesPerDay, parentTask):
+	def __init__(self,description,dueDate,hoursEstimate, hoursAtATime,numberOfTimesPerDay):
 		#Description of task
 		self.description = description
 		#Due date of task
@@ -16,9 +16,7 @@ class Task:
 		self.PredictedTime = self.daysToComplete()
 		
 		#The program's estimate of the start date.
-		self.predictedDate = self.dateToStart()
-		
-		self.parentTask = parentTask
+		self.predictedStartDate = self.dateToStart()
 	
 	#Calculates the day on which you should start the task.	
 	def dateToStart(self):
@@ -35,10 +33,20 @@ class Task:
 		projDays = userDays * userMult
 		return projDays
 		
-		
-	def start():
+	#Start the task.
+	def start(self):
 		self.started = True
 		self.actualStartDate = time.strftime("%d/%m/%Y")
+	
+	#Complete the task.	
+	def complete(self):
+		self.TimeCompleted = time.strftime("%d/%m/%y")
 		
+	#This classes built in toString method.
 	def __str__():
-		return ("Text: " + text +", Due Date: " + due + ", Expected Completion Time: " + time + ", Priority: " + priority + ", Time per Day: " + interval + ", Number of Intervals per Day: " + number + "." ) 
+		return ("Text: " + text +", Due Date: " + due + ", Expected Completion Time: " + time + ", Priority: " + priority + ", Time per Day: " + interval + ", Number of Intervals per Day: " + number + "." )
+		
+	#Built in comparison operator. Python is stupid about these. Possibly we will need to implement others (greater than, less equal, etc) later.
+	#We use this function when we order the priority queue.
+	def __lt__(self,task):
+		return self.predictedStartDate < task.predictedStateDate

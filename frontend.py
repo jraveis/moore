@@ -32,7 +32,7 @@ def createProject(name):
 			
 		projects[str(len(projects))] = newProject
 		print(projects.items());
-		return newP
+		return newProject
 			
 	#If the path is taken, ask for a different name.
 	else:
@@ -47,17 +47,30 @@ def createProject(name):
 #######################################################
 
 def parseMethodName(project):
+	print(project)
 	if(len(sys.argv)>1):
 		cmd2=sys.argv[2]
 	else:
 		while True:
 			cmd2=input("Enter method to be called.\n")
-			if cmd2 in methods:
-				tempFunc = methods[cmd2]
-				curProj.tempFunc()
-				return
+			if cmd2 == "Add":
+				project.addTask()
+				
+			elif cmd2 == "Complete":
+				project.completeTask()
+				
+			elif cmd2 == "Next":
+				project.nextTask()
+				
+			elif cmd2 == "Show":
+				project.showTasks()
+				
+			elif cmd2 == "Showc":
+				project.showCompletedTasks()
+				
 			else:
-				print("Please enter again.\n")
+				print("That is not a valid task.\n")
+				parseMethodName(project)
 				
 		#cmd2 is a method name
 		#call this method on the current project
@@ -99,8 +112,14 @@ def getInput():
 #Define the current user.
 currentUser = getpass.getuser()
 
-#Define the path to the Projects directory.
-pathToProjects = "/users/" + currentUser + "/Documents/Projects"
+#For testing purposes. If running on Windows, make this True.
+windows = False
+
+if windows:
+        #Define the path to the Projects directory.
+	pathToProjects = "/users/" + currentUser + "/Documents/Projects"
+else:
+	pathToProjects = "/home/" + currentUser + "/Projects"
 
 #Check if Projects exists. Create it if it doesn't.
 if not os.path.isdir(pathToProjects):
